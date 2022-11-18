@@ -31,7 +31,7 @@ const addBookHandler = (request, h) => {
   } else {
     const id = nanoid(16);
     const finished = pageCount === readPage;
-    const insertedAt = new Date().toISOString;
+    const insertedAt = new Date().toISOString();
     const updatedAt = insertedAt;
 
     const newBooks = {
@@ -113,14 +113,14 @@ const getAllBookHandler = (request, h) => {
     response.code(200);
     return response;
   } else if (finished !== undefined) {
-    const booksFinished = books.filter(
+    const booksfinished = books.filter(
       (book) => Number(book.finished) === Number(finished)
     );
 
     const response = h.response({
       status: "success",
-      date: {
-        books: booksFinished.map((book) => ({
+      data: {
+        books: booksfinished.map((book) => ({
           id: book.id,
           name: book.name,
           publisher: book.publisher,
@@ -147,9 +147,9 @@ const getAllBookHandler = (request, h) => {
 };
 
 const getBookByIdHandler = (req, h) => {
-  const { id } = req.params;
+  const { bookId } = req.params;
 
-  const book = books.filter((n) => n.id === id)[0];
+  const book = books.filter((n) => n.id === bookId)[0];
 
   if (book !== undefined) {
     const response = h.response({
@@ -171,7 +171,7 @@ const getBookByIdHandler = (req, h) => {
 };
 
 const editBookByIdHandler = (request, h) => {
-  const { id } = request.params;
+  const { bookId } = request.params;
   const {
     name,
     year,
@@ -200,7 +200,7 @@ const editBookByIdHandler = (request, h) => {
     return response;
   } else {
     const updatedAt = new Date().toISOString();
-    const index = books.findIndex((n) => n.id === id);
+    const index = books.findIndex((n) => n.id === bookId);
 
     if (index !== -1) {
       books[index] = {
@@ -218,7 +218,7 @@ const editBookByIdHandler = (request, h) => {
 
       const response = h.response({
         status: "success",
-        message: "Buku berhasil diupdate",
+        message: "Buku berhasil diperbarui",
       });
 
       response.code(200);
@@ -235,8 +235,8 @@ const editBookByIdHandler = (request, h) => {
 };
 
 const deleteBookByIdHandler = (req, h) => {
-  const { id } = req.params;
-  const index = books.findIndex((n) => n.id === id);
+  const { bookId } = req.params;
+  const index = books.findIndex((n) => n.id === bookId);
 
   if (index !== -1) {
     books.splice(index, 1);
